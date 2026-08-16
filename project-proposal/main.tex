@@ -1,0 +1,318 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% -----------------------------------------------------
+% bvraghav-tiet-ucs503p-article.sty
+% -----------------------------------------------------
+
+% Variable: Lab Instructor
+\makeatletter \newcommand{\BvrSetLabInstructor}[1]{%
+  \gdef\Bvr@LabInstructor{#1}}
+% default
+\newcommand{\Bvr@LabInstructor}{Dr. Raghav %
+  B. Venkataramaiyer}
+% public accessor
+\newcommand{\BvrLabInstructorValue}{\Bvr@LabInstructor}
+\makeatother
+
+% Add subtitle
+\usepackage{titling}
+% -- Set title bold
+\pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
+\makeatletter
+\newcommand{\BvrSubtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip 0.5em}%
+}
+\makeatother
+
+% Hints in the section title(s)
+\newcommand{\BvrHint}[1]{%
+  {\normalfont\normalsize\itshape\hfill #1}}
+
+% -----------------------------------------------------
+
+\title{AlgoRecall}
+
+\BvrSetLabInstructor{Ms. Paramveer Kaur}
+
+\BvrSubtitle{%
+  Adaptive DSA Revision and Analytics Platform \\
+  Project Proposal for UCS503P  \\
+  Submitted to: \BvrLabInstructorValue \\ \bfseries
+  Thapar Institute of Engineering and Technology%
+}
+
+\author{
+  Pihu Tanoch, CSED%
+  \thanks{Roll No: \texttt{1024170373}}
+  \and
+  Ekmanjot Kaur, CSED%
+  \thanks{Roll No: \texttt{1024170377}}
+  \and
+  Mannatpreet Singh, CSED%
+  \thanks{Roll No: \texttt{1024170382}}
+}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Abstract}
+
+AlgoRecall will be a web-based platform designed to help users manage and
+organize the revision of previously solved DSA questions. The system will
+allow users to store solved questions along with details such as topic,
+difficulty level, confidence level, and revision status.
+
+The platform will maintain a complete revision history and schedule future
+revisions based on user-defined and system-generated revision parameters.
+It will provide a dedicated dashboard for viewing due questions and
+tracking revision activities. Users will be able to search, filter, and
+categorize questions to efficiently manage their revision workflow.
+
+In addition, the system will offer analytical reports and visualizations
+that will summarize revision progress, topic-wise performance, confidence
+distribution, and revision consistency.
+
+\section{Introduction}
+
+Data Structures and Algorithms (DSA) play a crucial role in technical
+interviews and competitive programming. As part of their preparation,
+students and job aspirants solve a large number of problems across various
+topics such as Arrays, Linked Lists, Trees, Graphs, Dynamic Programming,
+and Greedy Algorithms. Continuous practice helps learners develop
+problem-solving skills and understand different algorithmic patterns.
+
+As the number of solved questions grows, managing and revisiting
+previously learned concepts becomes increasingly important. Learners often
+maintain records of solved problems using spreadsheets, notes, or online
+coding platforms. However, these methods primarily focus on problem-solving
+activities and provide limited support for organizing and tracking
+revisions.
+
+To address this need, AlgoRecall is proposed as a web-based platform that
+will enable users to maintain a structured record of solved questions,
+track revision activities, and monitor their overall learning progress
+through various management and analytical features.
+
+\section{Problem Statement}
+
+Existing coding platforms and online judges primarily focus on helping
+users solve programming problems and evaluate their coding skills. While
+these platforms provide features such as problem categorization, progress
+tracking, and submission history, they offer limited support for systematic
+revision and long-term knowledge retention.
+
+As learners solve an increasing number of DSA questions, it becomes
+difficult to remember previously learned concepts, problem-solving
+patterns, and algorithmic approaches. Revisions are often performed
+irregularly and without a structured plan, making it challenging for
+learners to determine which questions require more attention.
+Additionally, identifying weak topics and monitoring revision progress
+becomes increasingly difficult as the volume of solved questions grows.
+
+Therefore, there is a need for a dedicated revision management system that
+can organize solved questions, schedule revisions effectively, maintain
+revision records, and provide meaningful insights into a learner's
+strengths and weaknesses. Such a system can support a more disciplined and
+structured approach to DSA revision and learning.
+
+\section{Objectives}
+
+The primary objective of AlgoRecall is to provide a structured platform
+for managing and revising previously solved DSA questions. The system will
+aim to support users in maintaining consistent revision habits and
+tracking their learning progress effectively.
+
+The objectives of the project are:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item To store and manage records of solved DSA questions.
+    \item To allow users to assign and update confidence levels for each question.
+    \item To schedule and organize future revisions based on revision-related parameters.
+    \item To maintain a complete history of revision activities.
+    \item To identify weak topics and areas that require additional practice.
+    \item To support a structured and disciplined revision workflow.
+    \item To improve long-term retention of DSA concepts and problem-solving patterns.
+\end{itemize}
+
+\section{Scope of the Project}
+
+\subsection{In Scope}
+
+\begin{enumerate}[leftmargin=0.7cm]
+    \item User Registration and Authentication
+    \item Question Management (Add, Edit, Delete, View)
+    \item Confidence Level Tracking
+    \item Revision Scheduling
+    \item Revision History
+    \item Analytics and Reports
+    \item Search and Filter Functionality
+\end{enumerate}
+
+\subsection{Out of Scope}
+
+\begin{enumerate}[leftmargin=0.7cm]
+    \item Online Judge Functionality
+    \item Code Compilation and Execution
+    \item Contest Management
+    \item AI-based Solution Generation
+    \item Automatic LeetCode Synchronization
+    \item Real-time Collaboration Features
+\end{enumerate}
+
+The project will be focused on revision management and learning analytics
+rather than problem solving or code execution.
+
+\section{Target Users}
+
+The primary stakeholders of AlgoRecall shall be DSA learners, students
+preparing for technical interviews, and competitive programmers.
+
+\section{Functional Requirements}
+
+The system will provide the following functionalities:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item User Registration and Login
+    \item Add, Edit, and Delete Questions
+    \item Revise Questions and Record Revision Activity
+    \item Update Confidence Levels
+    \item View Due Questions for Revision
+    \item View Analytics and Progress Reports
+    \item Search and Filter Questions
+\end{itemize}
+
+\section{Non-Functional Requirements}
+
+The system will satisfy the following quality requirements:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Performance:} Quick response time for user operations.
+    \item \textbf{Security:} Secure authentication and protection of user data.
+    \item \textbf{Usability:} Simple and user-friendly interface.
+    \item \textbf{Scalability:} Ability to handle increasing amounts of data and users.
+    \item \textbf{Maintainability:} Easy to update and extend in the future.
+    \item \textbf{Availability:} Reliable access to the system whenever required.
+\end{itemize}
+
+\section{System Features}
+
+The system will consist of the following major modules:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Authentication:} User registration, login, and secure access management.
+    \item \textbf{Question Management:} Add, edit, delete, and organize solved DSA questions.
+    \item \textbf{Revision Engine:} Schedule and manage future revisions.
+    \item \textbf{Due Today Dashboard:} Display questions that are due for revision.
+    \item \textbf{Revision History:} Maintain records of past revision activities.
+    \item \textbf{Analytics:} Provide insights into revision progress and performance.
+    \item \textbf{Search \& Filter:} Enable quick retrieval of questions based on different criteria.
+\end{itemize}
+
+\section{Database Design}
+
+The system will use a MongoDB database consisting of three primary
+collections:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Users:} User information such as name, email, password hash,
+    and account-related details required for authentication and authorization.
+
+    \item \textbf{UserQuestions:} All questions added by a user along with
+    attributes such as title, platform, topic, difficulty level, confidence
+    level, date solved, last revision date, next revision date, revision
+    count, and current revision status.
+
+    \item \textbf{RevisionHistory:} Records of individual revision sessions,
+    including the associated question, revision date, confidence updates,
+    and other revision-related information.
+\end{itemize}
+
+\section{Revision Engine}
+
+The Revision Engine will be responsible for scheduling and managing
+question revisions. It will utilize factors such as Confidence Level,
+Question Difficulty, and Last Revision Date to determine when a question
+should be revised next.
+
+Based on these parameters, the system shall calculate the next revision
+date and assign a priority to each question. Questions with lower
+confidence levels, higher difficulty, or longer gaps since the last
+revision shall be given higher priority.
+
+\section{User Workflow}
+
+The typical workflow of the system will be as follows:
+
+\begin{enumerate}[leftmargin=0.7cm]
+    \item The user registers or logs into the platform.
+    \item The user adds solved DSA questions with details such as topic,
+    difficulty, and confidence level.
+    \item The system schedules future revisions for the added questions.
+    \item The user views questions that are due for revision through the dashboard.
+    \item The user revises a question and updates their confidence level.
+    \item The system records the revision activity and reschedules the next revision.
+    \item The user can monitor progress and performance through analytics and reports.
+\end{enumerate}
+
+\section{Technical Stack to be Used}
+
+\subsection{Frontend Layer}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item React.js
+    \item Tailwind CSS
+    \item JavaScript (ES6+)
+\end{itemize}
+
+\subsection{Backend Layer}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item Node.js
+    \item Express.js
+    \item RESTful APIs
+\end{itemize}
+
+\subsection{Database Layer}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item MongoDB Atlas
+    \item Mongoose ODM
+\end{itemize}
+
+\subsection{Authentication \& Security}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item JSON Web Tokens (JWT)
+    \item Password Hashing (bcrypt)
+\end{itemize}
+
+\subsection{Data Visualization}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item Chart.js
+\end{itemize}
+
+\subsection{Version Control \& Development Tools}
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item Git
+    \item GitHub
+    \item Visual Studio Code
+\end{itemize}
+
+\section{Expected Outcomes}
+
+The project is expected to improve revision consistency, retention of DSA
+concepts, identification of weak topics, and overall interview preparation.
+
+\end{document}
