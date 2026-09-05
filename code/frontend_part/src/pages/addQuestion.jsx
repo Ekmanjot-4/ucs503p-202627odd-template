@@ -1,5 +1,7 @@
+import QuestionsForm from "../components/questions/questionsForm";
+
 function addQuestion() {
-    return <h1>Questions NEWWW Page</h1>;
+    return <QuestionsForm />;
 }
 
 export default addQuestion;
