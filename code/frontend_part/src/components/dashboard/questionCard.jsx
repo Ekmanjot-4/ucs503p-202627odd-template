@@ -13,7 +13,7 @@ function QuestionCard({ question }) {
                     </h2>
 
                     <p className="text-gray-500">
-                        {question.difficulty}
+                        {question.topic}
                     </p>
 
                     <div className="flex gap-6 mt-3 text-sm text-gray-600">

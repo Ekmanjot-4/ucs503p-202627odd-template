@@ -2,7 +2,7 @@ import { PROJECT_NAME } from "../constants/appConstants";
 
 function Navbar() {
     return (
-        <nav className="bg-blue-600 h-16 flex items-center justify-between px-8 shadow-md">
+        <nav className="bg-blue-600 h-14 flex items-center justify-between px-8 shadow-md">
 
             <div>
                 <h1 className="text-white text-2xl font-bold">
