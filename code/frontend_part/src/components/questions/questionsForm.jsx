@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../../api";
 
 function QuestionsForm() {
     const [formData, setFormData] = useState({
@@ -18,13 +19,25 @@ function QuestionsForm() {
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        console.log(formData);
+    try {
+        const response = await api.post("/questions", formData);
 
-        // API call will come later
-    };
+        console.log("Question added:", response.data);
+
+        setFormData({
+            title: "",
+            topic: "",
+            difficulty: "",
+            platform: "",
+            link: "",
+        });
+    } catch (error) {
+        console.error("Error adding question:", error);
+    }
+};
 
     return (
         <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
