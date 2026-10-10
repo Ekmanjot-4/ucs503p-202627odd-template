@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
+    "google-auth-library": "^11.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0"
   },
