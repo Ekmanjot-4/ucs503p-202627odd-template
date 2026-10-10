@@ -1,14 +1,20 @@
 import { useState } from "react";
-import api from "../../api";
 
 function QuestionsForm() {
     const [formData, setFormData] = useState({
         title: "",
         topic: "",
+        subtopic: "",
         difficulty: "",
-        platform: "",
+        platform: "LeetCode",
         link: "",
+        confidence: "3",
+        dateSolved: new Date().toLocaleDateString("en-CA"),
+        notes: "",
     });
+
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,37 +25,73 @@ function QuestionsForm() {
         }));
     };
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    try {
-        const response = await api.post("/questions", formData);
+        try {
+            const savedQuestions = JSON.parse(
+                localStorage.getItem("algoRecallQuestions") || "[]"
+            );
 
-        console.log("Question added:", response.data);
+            const newQuestion = {
+                ...formData,
+                id: crypto.randomUUID(),
+                confidence: Number(formData.confidence),
+                createdAt: new Date().toISOString(),
+            };
 
-        setFormData({
-            title: "",
-            topic: "",
-            difficulty: "",
-            platform: "",
-            link: "",
-        });
-    } catch (error) {
-        console.error("Error adding question:", error);
-    }
-};
+            localStorage.setItem(
+                "algoRecallQuestions",
+                JSON.stringify([...savedQuestions, newQuestion])
+            );
+
+            setFormData({
+                title: "",
+                topic: "",
+                subtopic: "",
+                difficulty: "",
+                platform: "LeetCode",
+                link: "",
+                confidence: "3",
+                dateSolved: new Date().toLocaleDateString("en-CA"),
+                notes: "",
+            });
+
+            setMessage("Question added successfully!");
+            setMessageType("success");
+        } catch (error) {
+            console.error("Error saving question:", error);
+            setMessage("Unable to save question. Please try again.");
+            setMessageType("error");
+        }
+    };
 
     return (
-        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-semibold mb-6">
+        <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-8">
+            <h2 className="text-2xl font-semibold mb-6 md:col-span-2">
                 Add New Question
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {message && (
+                <div
+                    role="status"
+                    className={`mb-4 p-3 rounded-lg md:col-span-2 ${
+                        messageType === "success"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                    }`}
+                >
+                    {message}
+                </div>
+            )}
 
+            <form
+                onSubmit={handleSubmit}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
                 <div>
                     <label className="block mb-1 font-medium">
-                        Question Title
+                        Question Title *
                     </label>
                     <input
                         type="text"
@@ -64,7 +106,7 @@ function QuestionsForm() {
 
                 <div>
                     <label className="block mb-1 font-medium">
-                        Topic
+                        Topic *
                     </label>
                     <input
                         type="text"
@@ -79,7 +121,21 @@ function QuestionsForm() {
 
                 <div>
                     <label className="block mb-1 font-medium">
-                        Difficulty
+                        Subtopic
+                    </label>
+                    <input
+                        type="text"
+                        name="subtopic"
+                        value={formData.subtopic}
+                        onChange={handleChange}
+                        placeholder="e.g. Hashing"
+                        className="w-full border rounded-lg px-3 py-2"
+                    />
+                </div>
+
+                <div>
+                    <label className="block mb-1 font-medium">
+                        Difficulty *
                     </label>
                     <select
                         name="difficulty"
@@ -97,16 +153,20 @@ function QuestionsForm() {
 
                 <div>
                     <label className="block mb-1 font-medium">
-                        Platform
+                        Platform *
                     </label>
-                    <input
-                        type="text"
+                    <select
                         name="platform"
                         value={formData.platform}
                         onChange={handleChange}
-                        placeholder="e.g. LeetCode"
                         className="w-full border rounded-lg px-3 py-2"
-                    />
+                        required
+                    >
+                        <option value="LeetCode">LeetCode</option>
+                        <option value="GeeksforGeeks">GeeksforGeeks</option>
+                        <option value="CodeStudio">CodeStudio</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
 
                 <div>
@@ -123,13 +183,60 @@ function QuestionsForm() {
                     />
                 </div>
 
+                <div>
+                    <label className="block mb-1 font-medium">
+                        Initial Confidence: {formData.confidence}/5
+                    </label>
+                    <input
+                        type="range"
+                        name="confidence"
+                        min="1"
+                        max="5"
+                        step="1"
+                        value={formData.confidence}
+                        onChange={handleChange}
+                        className="w-full accent-blue-600 mt-2"
+                    />
+                    <div className="flex justify-between text-sm text-gray-500">
+                        <span>1 - Very weak</span>
+                        <span>5 - Very confident</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label className="block mb-1 font-medium">
+                        Date Solved *
+                    </label>
+                    <input
+                        type="date"
+                        name="dateSolved"
+                        value={formData.dateSolved}
+                        onChange={handleChange}
+                        className="w-full border rounded-lg px-3 py-2"
+                        required
+                    />
+                </div>
+
+                <div className="md:col-span-2">
+                    <label className="block mb-1 font-medium">
+                        Notes / Mistakes
+                    </label>
+                    <textarea
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleChange}
+                        placeholder="Record your approach, mistakes, or concepts to revisit..."
+                        rows="2"
+                        className="w-full border rounded-lg px-3 py-2"
+                    />
+                </div>
+
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+                    className="md:col-span-2 justify-self-start bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
                 >
                     Add Question
                 </button>
-
             </form>
         </div>
     );

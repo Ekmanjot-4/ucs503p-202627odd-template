@@ -9,10 +9,13 @@ import Analytics from "./pages/Analytics";
 import History from "./pages/History";
 import Heatmap from "./pages/Heatmap";
 import Settings from "./pages/Settings";
+import Login from "./pages/Login";
 
 function App() {
     return (
         <Routes>
+            <Route path="/login" element={<Login />} />
+
             <Route element={<AppLayout />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/questions" element={<Questions />} />
