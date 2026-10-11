@@ -195,7 +195,7 @@ function QuestionsForm() {
                         step="1"
                         value={formData.confidence}
                         onChange={handleChange}
-                        className="w-full accent-blue-600 mt-2"
+                        className="w-full accent-[#315B8C]"
                     />
                     <div className="flex justify-between text-sm text-gray-500">
                         <span>1 - Very weak</span>
@@ -233,7 +233,7 @@ function QuestionsForm() {
 
                 <button
                     type="submit"
-                    className="md:col-span-2 justify-self-start bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+                    className="bg-[#315B8C] text-white px-4 py-2 rounded-lg hover:bg-[#26476D]"
                 >
                     Add Question
                 </button>

@@ -151,7 +151,11 @@ function DashboardSummary() {
         <div>
             <div className="bg-white rounded-lg shadow p-6 mb-6">
                 <h1 className="text-2xl font-bold mb-4">
-                    Today's Revision Queue
+                    Today's Revision Summary [{new Date().toLocaleDateString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    })}]
                 </h1>
 
                 <div className="grid grid-cols-3 gap-4">
@@ -173,7 +177,7 @@ function DashboardSummary() {
 
                 <div className="w-full bg-gray-200 rounded-full h-2 mt-5">
                     <div
-                        className="bg-blue-600 h-2 rounded-full transition-all"
+                        className="bg-[#315B8C] h-2 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
                     />
                 </div>

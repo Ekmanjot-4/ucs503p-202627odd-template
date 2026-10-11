@@ -22,6 +22,7 @@ function Settings() {
                 <h1 className="text-2xl font-bold text-gray-800">
                     Settings
                 </h1>
+
                 <p className="mt-1 text-sm text-gray-500">
                     Customize your daily revision preferences.
                 </p>
@@ -47,8 +48,8 @@ function Settings() {
                             }}
                             className={`py-3 rounded-lg border font-semibold transition ${
                                 dailyTarget === number
-                                    ? "bg-blue-600 text-white border-blue-600"
-                                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                    ? "bg-[#315B8C] text-white border-[#315B8C]"
+                                    : "bg-white text-gray-700 border-gray-300 hover:bg-[#315B8C]/10 hover:border-[#315B8C]"
                             }`}
                         >
                             {number}
@@ -64,7 +65,7 @@ function Settings() {
                     <button
                         type="button"
                         onClick={handleSave}
-                        className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+                        className="bg-[#315B8C] text-white px-5 py-2 rounded-lg hover:bg-[#26476D] transition"
                     >
                         Save Settings
                     </button>
