@@ -18,6 +18,7 @@ const today = () => {
     const localDate = new Date(
         date.getTime() - date.getTimezoneOffset() * 60000
     );
+
     return localDate.toISOString().slice(0, 10);
 };
 
@@ -37,20 +38,22 @@ function QuestionsCSVImport() {
     };
 
     const handleDownloadTemplate = () => {
+        const sampleRow = [
+            "Two Sum",
+            "Arrays",
+            "Hashing",
+            "Easy",
+            "LeetCode",
+            "https://leetcode.com/problems/two-sum/",
+            "3",
+            today(),
+            "Practise the hash map approach",
+        ];
+
         const csvContent =
             CSV_HEADERS.join(",") +
             "\r\n" +
-            [
-                "Two Sum",
-                "Arrays",
-                "Hashing",
-                "Easy",
-                "LeetCode",
-                "https://leetcode.com/problems/two-sum/",
-                "3",
-                today(),
-                "Practise the hash map approach",
-            ]
+            sampleRow
                 .map((value) => `"${value.replace(/"/g, '""')}"`)
                 .join(",") +
             "\r\n";
@@ -64,9 +67,11 @@ function QuestionsCSVImport() {
 
         link.href = url;
         link.download = "algo-recall-template.csv";
+
         document.body.appendChild(link);
         link.click();
         link.remove();
+
         URL.revokeObjectURL(url);
     };
 
@@ -105,15 +110,18 @@ function QuestionsCSVImport() {
             header: true,
             skipEmptyLines: "greedy",
             transformHeader: (header) => header.trim(),
+
             complete: (results) => {
                 try {
                     if (results.errors.length > 0) {
                         const firstError = results.errors[0];
+
                         showError(
                             `CSV parsing error near row ${
                                 (firstError.row ?? 0) + 2
                             }: ${firstError.message}`
                         );
+
                         return;
                     }
 
@@ -128,6 +136,7 @@ function QuestionsCSVImport() {
                         showError(
                             `Invalid CSV headers. Use the downloaded template with these exact columns, in order: ${CSV_HEADERS.join(", ")}.`
                         );
+
                         return;
                     }
 
@@ -151,14 +160,22 @@ function QuestionsCSVImport() {
                         });
 
                         if (!question.title) {
-                            errors.push(`Row ${rowNumber}: Title is required.`);
+                            errors.push(
+                                `Row ${rowNumber}: Title is required.`
+                            );
                         }
 
                         if (!question.topic) {
-                            errors.push(`Row ${rowNumber}: Topic is required.`);
+                            errors.push(
+                                `Row ${rowNumber}: Topic is required.`
+                            );
                         }
 
-                        if (!["Easy", "Medium", "Hard"].includes(question.difficulty)) {
+                        if (
+                            !["Easy", "Medium", "Hard"].includes(
+                                question.difficulty
+                            )
+                        ) {
                             errors.push(
                                 `Row ${rowNumber}: Difficulty must be Easy, Medium, or Hard.`
                             );
@@ -182,25 +199,24 @@ function QuestionsCSVImport() {
                             );
                         }
 
-                        if (
-                            question.dateSolved &&
-                            (
-                                !/^\d{4}-\d{2}-\d{2}$/.test(question.dateSolved) ||
-                                (() => {
-                                    const date = new Date(
-                                        `${question.dateSolved}T00:00:00Z`
-                                    );
-                                    return (
-                                        Number.isNaN(date.getTime()) ||
-                                        date.toISOString().slice(0, 10) !==
-                                            question.dateSolved
-                                    );
-                                })()
-                            )
-                        ) {
-                            errors.push(
-                                `Row ${rowNumber}: Date solved must be a valid date in YYYY-MM-DD format.`
+                        if (question.dateSolved) {
+                            const date = new Date(
+                                `${question.dateSolved}T00:00:00Z`
                             );
+
+                            const isValidDate =
+                                /^\d{4}-\d{2}-\d{2}$/.test(
+                                    question.dateSolved
+                                ) &&
+                                !Number.isNaN(date.getTime()) &&
+                                date.toISOString().slice(0, 10) ===
+                                    question.dateSolved;
+
+                            if (!isValidDate) {
+                                errors.push(
+                                    `Row ${rowNumber}: Date solved must be a valid date in YYYY-MM-DD format.`
+                                );
+                            }
                         }
 
                         if (!question.platform) {
@@ -222,6 +238,7 @@ function QuestionsCSVImport() {
                         showError(
                             `CSV rejected. No questions were imported.\n${errors.join("\n")}`
                         );
+
                         return;
                     }
 
@@ -238,6 +255,7 @@ function QuestionsCSVImport() {
                     setIsProcessing(false);
                 }
             },
+
             error: (error) => {
                 showError(`Unable to read CSV: ${error.message}`);
                 setIsProcessing(false);
@@ -254,7 +272,9 @@ function QuestionsCSVImport() {
             );
 
             if (!Array.isArray(savedQuestions)) {
-                showError("Saved question data is invalid. Nothing was imported.");
+                showError(
+                    "Saved question data is invalid. Nothing was imported."
+                );
                 return;
             }
 
@@ -314,6 +334,7 @@ function QuestionsCSVImport() {
                         <h3 className="font-medium text-gray-800">
                             Step 1: Download the CSV template
                         </h3>
+
                         <p className="text-sm text-gray-500 mt-1">
                             Keep the exact column headers and their order.
                         </p>
@@ -322,7 +343,7 @@ function QuestionsCSVImport() {
                     <button
                         type="button"
                         onClick={handleDownloadTemplate}
-                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                        className="bg-[#315B8C] text-white px-4 py-2 rounded-lg hover:bg-[#26476D] transition"
                     >
                         Download CSV Template
                     </button>
@@ -342,8 +363,8 @@ function QuestionsCSVImport() {
                         className="block w-full text-sm text-gray-600
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-lg file:border-0
-                            file:bg-blue-50 file:text-blue-700
-                            hover:file:bg-blue-100"
+                            file:bg-[#315B8C]/10 file:text-[#315B8C]
+                            hover:file:bg-[#315B8C]/20"
                     />
 
                     {selectedFile && (
@@ -359,7 +380,7 @@ function QuestionsCSVImport() {
                         type="button"
                         onClick={handleValidate}
                         disabled={!selectedFile || isProcessing}
-                        className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                        className="mt-4 bg-[#315B8C] text-white px-5 py-2 rounded-lg hover:bg-[#26476D] disabled:opacity-50 transition"
                     >
                         {isProcessing ? "Validating..." : "Validate CSV"}
                     </button>
@@ -386,6 +407,7 @@ function QuestionsCSVImport() {
                                     ))}
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {previewQuestions.map((question, index) => (
                                     <tr key={index} className="border-t">
@@ -406,7 +428,7 @@ function QuestionsCSVImport() {
                     <button
                         type="button"
                         onClick={handleImport}
-                        className="mt-4 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700"
+                        className="mt-4 bg-[#315B8C] text-white px-5 py-2 rounded-lg hover:bg-[#26476D] transition"
                     >
                         Import {previewQuestions.length} Questions
                     </button>

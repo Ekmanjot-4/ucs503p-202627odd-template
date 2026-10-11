@@ -44,7 +44,7 @@ function History() {
                 <h1 className="text-2xl font-bold text-slate-800">
                     Revision History
                 </h1>
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-m text-slate-500">
                     Your revisions from the last 30 days, newest first.
                 </p>
             </div>
@@ -60,8 +60,8 @@ function History() {
                 </div>
             ) : (
                 <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-                    <table className="w-full text-left text-sm">
-                        <thead className="bg-slate-50 text-slate-600">
+                    <table className="w-full text-left text-m">
+                        <thead className="bg-[#201d1d] text-white">
                             <tr>
                                 <th className="px-6 py-4 font-semibold">Question</th>
                                 <th className="px-6 py-4 font-semibold">Topic</th>
