@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../../api";
 
 function QuestionsForm() {
     const [formData, setFormData] = useState({
@@ -25,25 +26,21 @@ function QuestionsForm() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const savedQuestions = JSON.parse(
-                localStorage.getItem("algoRecallQuestions") || "[]"
-            );
-
-            const newQuestion = {
-                ...formData,
-                id: crypto.randomUUID(),
+            await api.post("/questions", {
+                title: formData.title,
+                topic: formData.topic,
+                subtopic: formData.subtopic,
+                difficulty: formData.difficulty,
+                platform: formData.platform,
+                link: formData.link,
                 confidence: Number(formData.confidence),
-                createdAt: new Date().toISOString(),
-            };
-
-            localStorage.setItem(
-                "algoRecallQuestions",
-                JSON.stringify([...savedQuestions, newQuestion])
-            );
+                dateSolved: formData.dateSolved,
+                notes: formData.notes,
+            });
 
             setFormData({
                 title: "",
