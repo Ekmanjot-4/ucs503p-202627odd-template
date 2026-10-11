@@ -21,16 +21,7 @@ function Dashboard() {
             try {
                 const response = await api.get("/questions");
 
-                const updates = JSON.parse(
-                    localStorage.getItem("algoRecallQuestionUpdates") || "{}"
-                );
-
-                const fetchedQuestions = response.data.questions.map(
-                    (question) => ({
-                        ...question,
-                        ...(updates[question._id] || {}),
-                    })
-                );
+                const fetchedQuestions = response.data.questions;
 
                 setQuestions(fetchedQuestions);
 
@@ -41,7 +32,10 @@ function Dashboard() {
                         fetchedQuestions
                             .filter(
                                 (question) =>
-                                    question.lastRevisionDate === today
+                                    question.lastRevised &&
+                                    new Date(question.lastRevised)
+                                        .toISOString()
+                                        .slice(0, 10) === today
                             )
                             .map((question) => question._id)
                     )
@@ -54,65 +48,32 @@ function Dashboard() {
         fetchQuestions();
     }, []);
 
-    const handleRevision = (question, confidence, notes) => {
-        const revisionDate = getTodayDate();
+    const handleRevision = async (question, confidence, notes) => {
+        try {
+            const response = await api.post(
+                `/revisions/${question._id}`,
+                {
+                    confidence,
+                    notes,
+                }
+            );
 
-        const revision = {
-            id: `${question._id}-${Date.now()}`,
-            questionId: question._id,
-            title: question.title,
-            topic: question.topic,
-            dateSolved: question.dateSolved,
-            previousRevisionDate:
-                question.lastRevisionDate || question.dateSolved,
-            revisionDate,
-            previousConfidence: question.confidence ?? 3,
-            updatedConfidence: confidence,
-            notes,
-        };
+            const updatedQuestion = response.data.question;
 
-        const revisionHistory = JSON.parse(
-            localStorage.getItem("algoRecallRevisionHistory") || "[]"
-        );
+            setQuestions((previousQuestions) =>
+                previousQuestions.map((item) =>
+                    item._id === question._id ? updatedQuestion : item
+                )
+            );
 
-        localStorage.setItem(
-            "algoRecallRevisionHistory",
-            JSON.stringify([revision, ...revisionHistory])
-        );
-
-        const updatedQuestion = {
-            confidence,
-            notes,
-            lastRevisionDate: revisionDate,
-        };
-
-        const updates = JSON.parse(
-            localStorage.getItem("algoRecallQuestionUpdates") || "{}"
-        );
-
-        updates[question._id] = {
-            ...(updates[question._id] || {}),
-            ...updatedQuestion,
-        };
-
-        localStorage.setItem(
-            "algoRecallQuestionUpdates",
-            JSON.stringify(updates)
-        );
-
-        setQuestions((previousQuestions) =>
-            previousQuestions.map((item) =>
-                item._id === question._id
-                    ? { ...item, ...updatedQuestion }
-                    : item
-            )
-        );
-
-        setCompletedQuestions((previous) => {
-            const updated = new Set(previous);
-            updated.add(question._id);
-            return updated;
-        });
+            setCompletedQuestions((previous) => {
+                const updated = new Set(previous);
+                updated.add(question._id);
+                return updated;
+            });
+        } catch (error) {
+            console.error("Error recording revision:", error);
+        }
     };
 
     return (

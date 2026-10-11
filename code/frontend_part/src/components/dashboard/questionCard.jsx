@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import RevisionModal from "./revisionModel";
 
@@ -35,18 +36,37 @@ function QuestionCard({ question, isCompleted, onRevised }) {
 
                     <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-600">
                         <span>{question.difficulty}</span>
+
                         <span>{question.platform}</span>
+
                         <span className="font-bold text-gray-800">
                             Confidence {question.confidence ?? 3}/5
                         </span>
+
                         <span>
-                            Last revised: {question.lastRevised
-                                ? new Date(question.lastRevised).toLocaleDateString("en-IN", {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric"
-                                })
+                            Last revised:{" "}
+                            {question.lastRevised
+                                ? new Date(
+                                      question.lastRevised
+                                  ).toLocaleDateString("en-IN", {
+                                      day: "2-digit",
+                                      month: "short",
+                                      year: "numeric",
+                                  })
                                 : "Not yet revised"}
+                        </span>
+
+                        <span className="font-medium text-[#315B8C]">
+                            Next revision:{" "}
+                            {question.nextRevision
+                                ? new Date(
+                                      question.nextRevision
+                                  ).toLocaleDateString("en-IN", {
+                                      day: "2-digit",
+                                      month: "short",
+                                      year: "numeric",
+                                  })
+                                : "Not scheduled"}
                         </span>
                     </div>
                 </div>
