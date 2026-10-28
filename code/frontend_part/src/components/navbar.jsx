@@ -1,24 +1,10 @@
-import { PROJECT_NAME } from "../constants/appConstants";
-
 function Navbar() {
     return (
-        <nav className="bg-[#315B8C] h-14 sticky top-0 z-50 flex items-center justify-between px-8 shadow-md">
-
-            <div>
-                <h1 className="text-white text-2xl font-bold">
-                    {PROJECT_NAME}
-                </h1>
-            </div>
-
-            <div>
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                    alt="Profile"
-                    className="h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
-                />
-            </div>
-
-        </nav>
+        <header className="h-20 bg-[#f7f8f4] flex items-center px-10">
+            <h1 className="text-3xl font-semibold text-[#24352b]">
+                Hello, Pihu! ✍️(◔◡◔)
+            </h1>
+        </header>
     );
 }
 
