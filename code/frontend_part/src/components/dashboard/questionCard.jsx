@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import RevisionModal from "./revisionModel";
 
@@ -31,7 +30,8 @@ function QuestionCard({ question, isCompleted, onRevised }) {
 
                     <p className="text-gray-500">
                         {question.topic}
-                        {question.subtopic && ` • ${question.subtopic}`}
+                        {question.subtopic &&
+                            ` • ${question.subtopic}`}
                     </p>
 
                     <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-600">
@@ -54,19 +54,6 @@ function QuestionCard({ question, isCompleted, onRevised }) {
                                       year: "numeric",
                                   })
                                 : "Not yet revised"}
-                        </span>
-
-                        <span className="font-medium text-[#5f7f58]">
-                            Next revision:{" "}
-                            {question.nextRevision
-                                ? new Date(
-                                      question.nextRevision
-                                  ).toLocaleDateString("en-IN", {
-                                      day: "2-digit",
-                                      month: "short",
-                                      year: "numeric",
-                                  })
-                                : "Not scheduled"}
                         </span>
                     </div>
                 </div>
