@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Cropper from "react-easy-crop";
 import { SIDEBAR_ITEMS } from "../constants/sidebarItems";
 
 function Sidebar() {
-    const navigate = useNavigate();
     const fileInputRef = useRef(null);
 
     const [profilePhoto, setProfilePhoto] = useState(
@@ -86,7 +85,7 @@ function Sidebar() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        navigate("/login");
+        window.location.href = "/login";
     };
 
     return (
